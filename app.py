@@ -11,7 +11,6 @@ app = Flask(__name__)
 
 # Load trained GRU model for AF detection
 model_path = "trained_gru_model.h5"
-
 model = load_model(model_path)
 
 # Image target size for model
@@ -30,7 +29,7 @@ def predict_from_csv():
         if filename.endswith('.csv'):
             df = pd.read_csv(file, header=None)
         elif filename.endswith(('.xls', '.xlsx')):
-            df = pd.read_excel(file, header=None, engine='openpyxl')  # Use openpyxl for .xlsx files
+            df = pd.read_excel(file, header=None, engine='openpyxl')
         else:
             return jsonify({"error": "Unsupported file format"}), 400
 
@@ -52,6 +51,7 @@ def predict_from_csv():
         # Convert to image array
         img_io = io.BytesIO()
         plt.savefig(img_io, format='png', bbox_inches='tight', pad_inches=0)
+        plt.close(fig)  # Close figure to free memory
         img_io.seek(0)
 
         img_array = np.frombuffer(img_io.getvalue(), dtype=np.uint8)
@@ -70,6 +70,4 @@ def predict_from_csv():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=8080)
-
+    app.run(debug=True, host="0.0.0.0", port=8080)
