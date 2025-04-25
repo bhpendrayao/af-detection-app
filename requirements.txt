@@ -2,8 +2,8 @@ flask
 numpy
 pandas
 matplotlib
-pywt
+PyWavelets
 opencv-python-headless
 tensorflow
 openpyxl
-waitress
+
