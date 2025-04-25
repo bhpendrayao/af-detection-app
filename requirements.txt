@@ -1,0 +1,9 @@
+flask
+numpy
+pandas
+matplotlib
+pywt
+opencv-python-headless
+tensorflow
+openpyxl
+waitress
